@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-
+// TODO reemplazar por env variable como la v1
 const sequelize = new Sequelize('api_v2', 'root', 'root', {
     dialect: 'mariadb',
     host: 'localhost'

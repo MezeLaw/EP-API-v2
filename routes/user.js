@@ -3,7 +3,7 @@ const User = require('../models/user');
 
 const router = express.Router();
 
-// Ruta para obtener todos los usuarios
+// Get users
 router.get('/', async (req, res) => {
     try {
         const users = await User.findAll();
@@ -14,16 +14,35 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Ruta para crear un nuevo usuario
-router.post('/', async (req, res) => {
-    const { name, email } = req.body;
+//Get by id
+router.get("/:id",async (req, res) => {
+    const userId = req.params.id;
+
     try {
-        const user = await User.create({ name, email });
+        const user = await User.findByPk(userId);
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+    }  catch (err) {
+        console.error('Error al buscar el usuario:', err);
+        res.status(500).json({ error: 'Error al buscar el usuario' });
+    }
+});
+
+//Create user
+router.post('/', async (req, res) => {
+    const { name, lastname, dni, email, password } = req.body;
+    try {
+        const user = await User.create({ name, lastname, dni, email, password });
         res.json(user);
     } catch (err) {
         console.error('Error al crear el usuario:', err);
         res.status(500).json({ error: 'Error al crear el usuario' });
     }
 });
+
+
 
 module.exports = router;
