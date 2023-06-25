@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/user');
+const userService = require('../services/userService');
 
 const router = express.Router();
 
@@ -35,7 +36,8 @@ router.get("/:id",async (req, res) => {
 router.post('/', async (req, res) => {
     const { name, lastname, dni, email, password } = req.body;
     try {
-        const user = await User.create({ name, lastname, dni, email, password });
+        //const user = await User.create({ name, lastname, dni, email, password });
+        const user = await userService.createUser({ name, lastname, dni, email, password });
         res.json(user);
     } catch (err) {
         console.error('Error al crear el usuario:', err);
